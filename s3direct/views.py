@@ -43,7 +43,7 @@ def get_upload_params(request):
         return HttpResponse(data, content_type="application/json", status=400)
 
     if hasattr(key, '__call__'):
-        key = key(filename)
+        key = key(request)
     elif key == '/':
         key = '${filename}'
     else:
