@@ -18,6 +18,7 @@ def get_upload_params(request):
         return HttpResponse(data, content_type="application/json", status=400)
 
     key = dest.get('key')
+    key_receives_request = dest.get('key_receives_request')
     auth = dest.get('auth')
     allowed = dest.get('allowed')
     acl = dest.get('acl')
@@ -43,7 +44,10 @@ def get_upload_params(request):
         return HttpResponse(data, content_type="application/json", status=400)
 
     if hasattr(key, '__call__'):
-        key = key(filename)
+        if key_receives_request:
+            key = key(request)
+        else:
+            key = key(filename)
     elif key == '/':
         key = '${filename}'
     else:
