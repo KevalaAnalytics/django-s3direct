@@ -19,6 +19,7 @@ def get_upload_params(request):
 
     key = dest.get('key')
     key_receives_request = dest.get('key_receives_request')
+    run_after = dest.get('run_after')
     auth = dest.get('auth')
     allowed = dest.get('allowed')
     acl = dest.get('acl')
@@ -59,5 +60,8 @@ def get_upload_params(request):
         content_type, key, acl, bucket, cache_control, content_disposition, content_length_range,
         server_side_encryption
     )
+
+    if hasattr(run_after, '__call__'):
+        run_after(request)
 
     return HttpResponse(json.dumps(data), content_type="application/json")
