@@ -61,7 +61,7 @@ def get_upload_params(request):
         server_side_encryption
     )
 
-    if hasattr(run_after, '__call__'):
+    if run_after is not None:
         run_after(request)
 
     return HttpResponse(json.dumps(data), content_type="application/json")
